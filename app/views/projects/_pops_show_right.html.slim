@@ -45,4 +45,4 @@
                 .document-info-resume
                   = truncate(d.description, length: 100)
               .document-date.document-cell
-                = d.created_date.strftime('%d.%m.%Y')
+                = d.created_date.strftime('%d.%m.%Y') if d.created_date
