@@ -15,7 +15,7 @@
           - project.documents.where(category_id: c.id).each do |d|
             li.document
               .document-files.document-cell
-                - if d.url_to
+                - unless d.url_to.nil? || d.url_to.blank?
                   = link_to d.url_to, target: "_blank", title: d.url_to do
                     .document-file.icon-file-link
                 - d.attachments.each do |a|
@@ -43,6 +43,6 @@
                       .document-info-tag
                         = t
                 .document-info-resume
-                  = truncate(d.description, length: 100)
+                  = truncate(d.description.html_safe, length: 100)
               .document-date.document-cell
                 = d.created_date.strftime('%d.%m.%Y') if d.created_date

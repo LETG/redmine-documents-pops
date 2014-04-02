@@ -7,6 +7,7 @@ class DocumentsPopsCreateDocuments
 def self.create
   Project.all.each do |p|
     p.enable_module!('news')
+    p.enable_module!('documents')
   end
 end
 
