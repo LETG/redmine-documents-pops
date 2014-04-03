@@ -46,9 +46,9 @@ end
 
   def self.create_categories
     DocumentCategory.destroy_all
-    DocumentCategory.create!(name: "Productions", position: 1, is_default: false, type: "DocumentCategory", active: true, project_id: nil, parent_id: nil, position_name: nil)
+    DocumentCategory.create!(name: "Productions", position: 3, is_default: false, type: "DocumentCategory", active: true, project_id: nil, parent_id: nil, position_name: nil)
     DocumentCategory.create!(name: "Ressources", position: 2, is_default: false, type: "DocumentCategory", active: true, project_id: nil, parent_id: nil, position_name: nil)
-    DocumentCategory.create!(name: "Gestion de projet", position: 3, is_default: false, type: "DocumentCategory", active: true, project_id: nil, parent_id: nil, position_name: nil)
+    DocumentCategory.create!(name: "Gestion de projet", position: 1, is_default: false, type: "DocumentCategory", active: true, project_id: nil, parent_id: nil, position_name: nil)
   end
 
 end
