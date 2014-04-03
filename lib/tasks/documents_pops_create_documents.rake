@@ -12,11 +12,11 @@ def self.create
 end
 
   def self.upload_files_productions
-    parse_csv 'plugins/redmine_dmsf_pops/lib/tasks/list_docs.csv', 'first'
+    parse_csv 'plugins/documents_pops/lib/tasks/list_docs_with_dates.csv', 'first'
   end
 
   def self.upload_files_gestions
-    parse_csv 'plugins/redmine_dmsf_pops/lib/tasks/list_gestion_docs.csv', 'last'
+    parse_csv 'plugins/documents_pops/lib/tasks/list_gestion_docs_with_dates.csv', 'last'
   end
 
   def self.parse_csv path, folder
@@ -30,17 +30,18 @@ end
         d = DocumentCategory.find_by_name('Gestion de projet')
       end
       if p && d && Dir["plugins/documents_pops/lib/tasks/prod/" + "prod_" + row[1] + ".*"].any?
-        upload_file(p, d, "prod_" + row[1] , row[2])
+        upload_file(p, d, "prod_" + row[1] , row[2], row[3])
       end
     end
   end
 
-  def self.upload_file(project,category,name,title)
+  def self.upload_file(project,category,name,title,date)
     filename = Dir["plugins/documents_pops/lib/tasks/prod/#{name}.*"].first
     filename.slice!("plugins/documents_pops/lib/tasks/prod/")
     # puts File.exist?(Dir["plugins/documents_pops/lib/tasks/prod/#{name}.*"].first)
-    d = project.documents.create!(category: category, title: title, description: title, created_date: Time.now)
+    d = project.documents.create!(category: category, title: title, description: title, created_date: date)
     d.attachments.create!(file: File.new(Dir["plugins/documents_pops/lib/tasks/prod/#{name}.*"].first), filename: filename)
+    d.tag_list = "Documents"
   end
 
   def self.create_categories
