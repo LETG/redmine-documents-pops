@@ -1,6 +1,7 @@
 require File.join(File.dirname(__FILE__), 'lib/redmine_documents_pops_hook_listener')
 require File.join(File.dirname(__FILE__), 'app/models/document')
 # require File.join(File.dirname(__FILE__), 'app/helpers/attachments_helper_patch')
+require File.join(File.dirname(__FILE__), 'app/controllers/documents_controller_patch')
 
 Redmine::Plugin.register :documents_pops do
   name 'Documents Pops plugin'
