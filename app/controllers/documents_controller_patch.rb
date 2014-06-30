@@ -25,6 +25,41 @@ module DocumentsControllerPatch
         render :layout => false if request.xhr?
       end
 
+      def edit
+        @attachments = @document.attachments.all
+      end
+
+      def update
+        @document.safe_attributes = params[:document]
+        attachments = Attachment.attach_files(@document, params[:attachments])
+        render_attachment_warning_if_needed(@document)
+
+        if attachments.present? && attachments[:files].present? && Setting.notified_events.include?('document_added')
+          Mailer.attachments_added(attachments[:files]).deliver
+        end
+        if request.put? and @document.save
+          flash[:notice] = l(:notice_successful_update)
+          redirect_to document_path(@document)
+        else
+          render :action => 'edit'
+        end
+      end
+
+      def destroy
+        @document.destroy if request.delete?
+        redirect_to project_documents_path(@project)
+      end
+
+      def add_attachment
+        attachments = Attachment.attach_files(@document, params[:attachments])
+        render_attachment_warning_if_needed(@document)
+
+        if attachments.present? && attachments[:files].present? && Setting.notified_events.include?('document_added')
+          Mailer.attachments_added(attachments[:files]).deliver
+        end
+        redirect_to document_path(@document)
+      end
+
     end
   end
 end
