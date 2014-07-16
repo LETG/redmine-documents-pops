@@ -39,7 +39,8 @@ module DocumentsControllerPatch
         end
         if request.put? and @document.save
           flash[:notice] = l(:notice_successful_update)
-          redirect_to document_path(@document)
+          # redirect_to document_path(@document)
+          redirect_to project_path(@project)
         else
           render :action => 'edit'
         end
@@ -47,7 +48,7 @@ module DocumentsControllerPatch
 
       def destroy
         @document.destroy if request.delete?
-        redirect_to project_documents_path(@project)
+        redirect_to project_path(@project)
       end
 
       def add_attachment
