@@ -5,6 +5,10 @@
 - pptTypes = [".ppt", ".pptx", ".ppsx"]
 - zipTypes = [".zip", ".rar", ".7z", ".tar", ".zipx"]
 
+
+.contextual.project-document-new
+  = link_to l(:label_document_new), new_project_document_path(@project), :class => 'icon icon-add', :style => "float: right; "
+
 .project-documents
   - project.documents.includes(:category).order("#{DocumentCategory.table_name}.name, created_date DESC").group_by(&:category).each do |category, docs|
     .project-documents-title
