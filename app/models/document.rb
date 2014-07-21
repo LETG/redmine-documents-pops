@@ -9,7 +9,7 @@ module DocumentsPops
     validates_presence_of :created_date
 
     scope :visible, lambda {|*args|
-      includes(:project).where("visible_to_public = 1 OR #{Project.allowed_to_condition(args.shift || User.current, :view_documents, *args)}")
+      includes(:project).where("visible_to_public = true OR #{Project.allowed_to_condition(args.shift || User.current, :view_documents, *args)}")
     }
 
     def visible?(user=User.current)
