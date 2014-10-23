@@ -25,6 +25,19 @@ module DocumentsControllerPatch
         render :layout => false if request.xhr?
       end
 
+      def create
+        @document = @project.documents.build
+        @document.safe_attributes = params[:document]
+        @document.save_attachments(params[:attachments])
+        if @document.save
+          render_attachment_warning_if_needed(@document)
+          flash[:notice] = l(:notice_successful_create)
+          redirect_to project_documents_path(@project, :protocol => 'https://')
+        else
+          render :action => 'new'
+        end
+      end 
+
       def edit
         @attachments = @document.attachments.all
       end
@@ -40,7 +53,7 @@ module DocumentsControllerPatch
         if request.put? and @document.save
           flash[:notice] = l(:notice_successful_update)
           # redirect_to document_path(@document)
-          redirect_to project_path(@project)
+          redirect_to project_path(@project, :protocol => 'https://')
         else
           render :action => 'edit'
         end
