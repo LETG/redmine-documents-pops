@@ -8,8 +8,15 @@ module DocumentsPops
     validates_length_of :title, :maximum => 255
     validates_presence_of :created_date
 
-    scope :visible, lambda {|*args|
-      includes(:project).where("visible_to_public = true OR #{Project.allowed_to_condition(args.shift || User.current, :view_documents, *args)}")
+    scope :visible, lambda { |*args|
+      user    = args.shift || User.current
+      options = args.first || {}
+
+      if options[:project]
+        joins(:project).where(Project.allowed_to_condition(user, :view_documents, options))
+      else
+        joins(:project).where("visible_to_public = true OR #{Project.allowed_to_condition(user, :view_documents, options)}")
+      end
     }
 
     def visible?(user=User.current)
