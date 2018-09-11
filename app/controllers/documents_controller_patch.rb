@@ -50,7 +50,8 @@ module DocumentsControllerPatch
         if attachments.present? && attachments[:files].present? && Setting.notified_events.include?('document_added')
           Mailer.attachments_added(attachments[:files]).deliver
         end
-        if request.put? and @document.save
+
+        if @document.save
           flash[:notice] = l(:notice_successful_update)
           # redirect_to document_path(@document)
           redirect_to project_path(@project, :protocol => 'https://')
