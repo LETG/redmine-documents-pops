@@ -23,6 +23,40 @@ module DocumentsPops
       (!user.nil? && user.allowed_to?(:view_documents, project)) || (visible_to_public)
     end
 
+    def timeline_text(view_context)
+      link_target = (self.attachments.one? ? self.attachments.first : (self.url_to.nil? ? nil : self))
+      
+      if attachments.one?
+        case attachments.first.content_type
+          when "application/pdf"
+            icon = "fa-file-pdf-o"
+          when "image/jpeg", "image/png", "image/jpg"
+            icon = "fa-file-image-o"
+          when "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+            icon = "fa-file-word-o"
+          when ""
+            if attachment.first.filename.match(/^(.*)\.(doc|docx)$/)
+              icon = "fa-file-word-o"
+            elsif attachment.first.filename.match(/^(.*)\.(xls|xlsx)$/)
+              icon = "fa-file-excel-o"
+            end
+          else
+            icon = "fa-file"
+          end
+      else
+        icon = "fa-folder-open"
+      end
+
+      if link_target
+        return {
+          headline: view_context.link_to("<div class='document'><div class='icon'><span class='fa #{icon}'></span></div><div class='content'>#{self.title}</div></div>".html_safe, link_target, target: "_blank")
+        }
+      else
+        return {
+          headline: "<div class='document'><div class='icon'><span class='fa #{icon}'></span></div><div class='content'>#{self.title}</div></div>".html_safe
+        }
+      end
+    end
   end
 end
 Document.send(:include, DocumentsPops)
