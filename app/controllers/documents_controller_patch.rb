@@ -1,6 +1,8 @@
 module DocumentsControllerPatch
   def self.included(base)
     base.class_eval do
+      skip_before_action :authorize, only: :show
+
       def new
         @document = @project.documents.build
         @document.safe_attributes = params[:document]
@@ -23,6 +25,11 @@ module DocumentsControllerPatch
         @document = @project.documents.build
         @document.visible_in_timeline = true
         render :layout => false if request.xhr?
+      end
+
+      def show
+        authorize unless @document.visible_to_public
+        @attachments = @document.attachments.to_a
       end
 
       def create
