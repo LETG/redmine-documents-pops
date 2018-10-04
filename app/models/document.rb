@@ -39,10 +39,14 @@ module DocumentsPops
               icon = "fa-file-word-o"
             elsif attachments.first.filename.match(/^(.*)\.(xls|xlsx)$/)
               icon = "fa-file-excel-o"
+            elsif attachments.first.filename.match(/^(.*)\.(pdf)$/)
+              icon = "fa-file-pdf-o"
             end
           else
             icon = "fa-file"
           end
+      elsif attachments.empty? && self.url_to.present?
+        icon = "fa-link"
       else
         icon = "fa-folder-open"
       end
