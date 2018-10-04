@@ -35,9 +35,9 @@ module DocumentsPops
           when "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
             icon = "fa-file-word-o"
           when ""
-            if attachment.first.filename.match(/^(.*)\.(doc|docx)$/)
+            if attachments.first.filename.match(/^(.*)\.(doc|docx)$/)
               icon = "fa-file-word-o"
-            elsif attachment.first.filename.match(/^(.*)\.(xls|xlsx)$/)
+            elsif attachments.first.filename.match(/^(.*)\.(xls|xlsx)$/)
               icon = "fa-file-excel-o"
             end
           else
