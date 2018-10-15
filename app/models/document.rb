@@ -29,18 +29,20 @@ module DocumentsPops
       if attachments.one?
         case attachments.first.content_type
           when "application/pdf"
-            icon = "fa-file-pdf-o"
+            icon = "fa-file-pdf"
           when "image/jpeg", "image/png", "image/jpg"
-            icon = "fa-file-image-o"
+            icon = "fa-file-image"
           when "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-            icon = "fa-file-word-o"
+            icon = "fa-file-word"
           when ""
             if attachments.first.filename.match(/^(.*)\.(doc|docx)$/)
-              icon = "fa-file-word-o"
+              icon = "fa-file-word"
             elsif attachments.first.filename.match(/^(.*)\.(xls|xlsx)$/)
-              icon = "fa-file-excel-o"
+              icon = "fa-file-excel"
+            elsif attachments.first.filename.match(/^(.*)\.(ppt|pptx)$/)
+              icon = "fa-file-powerpoint"
             elsif attachments.first.filename.match(/^(.*)\.(pdf)$/)
-              icon = "fa-file-pdf-o"
+              icon = "fa-file-pdf"
             end
           else
             icon = "fa-file"
