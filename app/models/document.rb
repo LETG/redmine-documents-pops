@@ -25,6 +25,7 @@ module DocumentsPops
 
     def timeline_text(view_context)
       link_target = (self.attachments.one? ? self.attachments.first : (self.url_to.nil? ? nil : self))
+      icon = "fa-file"
       
       if attachments.one?
         case attachments.first.content_type
