@@ -23,7 +23,7 @@ module DocumentsPops
       (!user.nil? && user.allowed_to?(:view_documents, project)) || (visible_to_public)
     end
 
-    def timeline_text(view_context)
+    def timeline_text(view_context, category_id = nil)
       link_target = (self.attachments.one? ? self.attachments.first : (self.url_to.nil? ? nil : self))
       icon = "fa-file"
       
@@ -54,13 +54,19 @@ module DocumentsPops
         icon = "fa-folder-open"
       end
 
+      if category_id.present?
+        doc_class = "cat-#{category_id}"
+      else
+        doc_class = 'other'
+      end
+
       if link_target
         return {
-          headline: view_context.link_to("<div class='document'><div class='icon'><span class='fa #{icon}'></span></div><div class='content'>#{self.title}</div></div>".html_safe, link_target, target: "_blank")
+          text: view_context.link_to("<div class='document #{doc_class}'><div class='icon'><span class='fa #{icon}'></span></div><div class='content' title='#{self.title}'>#{self.title}</div></div>".html_safe, link_target, target: "_blank")
         }
       else
         return {
-          headline: "<div class='document'><div class='icon'><span class='fa #{icon}'></span></div><div class='content'>#{self.title}</div></div>".html_safe
+          text: "<div class='document #{doc_class}'><div class='icon'><span class='fa #{icon}'></span></div><div class='content' title='#{self.title}'>#{self.title}</div></div>".html_safe
         }
       end
     end
