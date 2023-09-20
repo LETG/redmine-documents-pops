@@ -19,10 +19,10 @@ module AttachmentsControllerPatch
               render :action => 'file'
             elsif @attachment.is_image?
               render :action => 'image'
-            elsif @attachment.is_pdf?
-              send_file @attachment.diskfile, :filename => filename_for_content_disposition(@attachment.filename),
-                                              :type => detect_content_type(@attachment),
-                                              :disposition => disposition(@attachment)
+            # elsif @attachment.is_pdf?
+            #   send_file @attachment.diskfile, :filename => filename_for_content_disposition(@attachment.filename),
+            #                                   :type => detect_content_type(@attachment),
+            #                                   :disposition => disposition(@attachment)
             else
               render :action => 'other'
             end
